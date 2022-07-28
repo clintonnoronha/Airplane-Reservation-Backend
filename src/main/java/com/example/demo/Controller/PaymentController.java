@@ -22,7 +22,7 @@ public class PaymentController {
 	private PaymentRepository paymentRepository;
 	
 	@PostMapping("/payments")
-	public ResponseEntity<Payment> createDepartment(@Valid @RequestBody Payment pay) {
+	public ResponseEntity<Payment> createPayment(@Valid @RequestBody Payment pay) {
 		
 		paymentRepository.save(pay);
 		
@@ -30,7 +30,7 @@ public class PaymentController {
 	}
 	
 	@GetMapping("/payments")
-    public List<Payment> getAllDepartments() {
+    public List<Payment> getAllPayments() {
 		
         List<Payment> paymentList = paymentRepository.findAll();
         
