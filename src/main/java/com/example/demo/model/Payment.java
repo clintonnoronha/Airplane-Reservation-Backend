@@ -9,9 +9,14 @@ public class Payment {
 	@Id
 	private String payment_id;
 	
+	@Column(precision = 8, scale = 2)
 	private double amount;
 	
+	@Column(length=8)
 	private String status;
+	
+	@OneToOne(mappedBy = "pay")
+	private BookingDetails bkDetails;
 	
 	public Payment() {}
 
@@ -44,5 +49,13 @@ public class Payment {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public BookingDetails getBkDetails() {
+		return bkDetails;
+	}
+
+	public void setBkDetails(BookingDetails bkDetails) {
+		this.bkDetails = bkDetails;
 	}
 }

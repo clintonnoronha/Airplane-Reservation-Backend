@@ -1,10 +1,13 @@
 package com.example.demo.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -25,6 +28,9 @@ public class User {
 	private Long phone_number;
 	private int role;
 	private String title;
+	
+	@OneToMany(mappedBy = "user")
+	private List<BookingDetails> bookingList;
 
 	public User(String fname, String lname, String email, String pswd, String dob, Long phone_number, int role,
 			String title) {
@@ -117,4 +123,11 @@ public class User {
 		this.title = title;
 	}
 
+	public List<BookingDetails> getBookingList() {
+		return bookingList;
+	}
+
+	public void setBookingList(List<BookingDetails> bookingList) {
+		this.bookingList = bookingList;
+	}
 }
