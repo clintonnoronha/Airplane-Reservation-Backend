@@ -19,19 +19,37 @@ public class User {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="my_seq")
 	@SequenceGenerator(name="my_seq",sequenceName="MY_SEQ", allocationSize=1, initialValue=1)
 	private Long id;
+	@Column(length=15)
 	private String fname;
+	@Column(length=15)
 	private String lname;
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = true,length=50)
 	private String email;
+	@Column(length=16)
 	private String pswd;
+	@Column(length=10)
 	private String dob;
+
 	private Long phone_number;
 	private int role;
+	@Column(length=4)
 	private String title;
 	
 	@OneToMany(mappedBy = "user")
 	private List<BookingDetails> bookingList;
 
+	
+	public User(UserResponse userResponse) {
+		
+		this.fname = userResponse.getFname();
+		this.lname = userResponse.getLname();
+		this.email = userResponse.getEmail();
+		this.pswd = userResponse.getPswd();
+		this.dob = userResponse.getDob();
+		this.phone_number = userResponse.getPhone_number();
+		this.role = userResponse.getRole();
+		this.title = userResponse.getTitle();
+	}
 	public User(String fname, String lname, String email, String pswd, String dob, Long phone_number, int role,
 			String title) {
 		super();

@@ -28,12 +28,6 @@ public class AircraftModelController {
 	@PostMapping("/aircraftModel")
 	public AircraftModel createAircraftModel(@RequestBody AircraftModelResponse aircraftModel) {
 		AircraftModel model=new AircraftModel(aircraftModel);
-		
-		for(Long id:aircraftModel.getAircraftIdList()) {
-			Aircraft aircraft=new Aircraft();
-			aircraft.setAircraftId(id);
-			aircraftRepo.save(aircraft);
-		}
 		return aircraftModelRepo.save(model);
 	}
 	

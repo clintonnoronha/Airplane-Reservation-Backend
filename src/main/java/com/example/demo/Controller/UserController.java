@@ -10,9 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.model.BookingDetails;
 import com.example.demo.model.User;
+import com.example.demo.model.UserResponse;
+import com.example.demo.repo.BookingDetailsRepository;
 import com.example.demo.repo.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -22,32 +26,63 @@ public class UserController {
 	
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private BookingDetailsRepository bookDetailsRepository;
+	
 	@GetMapping(value="/users/login")
-	public User userLogin(@RequestParam("email") String email_id, @RequestParam("password") String pwd) {
+	public List<UserResponse> userLogin(@RequestParam("email") String email_id, @RequestParam("password") String pwd) {
 		System.out.println(email_id+" "+pwd);
 		User u= this.userRepository.findByEmailAndPswd(email_id, pwd);
 		System.out.println(email_id+" "+pwd);
-		return u;
+		List<UserResponse> al = new ArrayList<>(); 
+		if(u!=null) {
+			UserResponse ur= new UserResponse(u);
+			al.add(ur);
+			return al;
+		}
+		return al;
 	}
 	@GetMapping("/users/forgotPassword/{email}")
-	public User forgetPassword(@PathVariable("email") String email) {
+	public List<UserResponse> forgetPassword(@PathVariable("email") String email) {
 		User u = this.userRepository.findByEmail(email);
-		return u;
+		List<UserResponse> al = new ArrayList<>(); 
+		if(u!=null) {
+			UserResponse ur= new UserResponse(u);
+			al.add(ur);
+			return al;
+		}
+		return al;
 	}
 	
 	@PostMapping("/users")
-	public ResponseEntity<User> createUser(@Valid @RequestBody User u) {
-		u.setRole(0);
-		userRepository.save(u);
-		
-		return new ResponseEntity<>(u, HttpStatus.CREATED);
+	public ResponseEntity<User> createUser(@Valid @RequestBody UserResponse ur) {
+		User user= new User(ur);
+		user.setRole(0);
+		user.setBookingList(new ArrayList<BookingDetails>());
+		this.userRepository.save(user);
+		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	}
 	@GetMapping("/users")
-    public List<User> getAllUsers() {
+    public List<UserResponse> getAllUsers() {
 		
         List<User> userList = userRepository.findAll();
+        List<UserResponse> responseList = new ArrayList<>();
+        userList.forEach(l -> {
+        	UserResponse userResponse = new UserResponse();
+        	userResponse.setId(l.getId());
+        	userResponse.setFname(l.getFname());
+        	userResponse.setLname(l.getLname());
+        	userResponse.setDob(l.getDob());
+        	userResponse.setEmail(l.getEmail());
+        	userResponse.setPhone_number(l.getPhone_number());
+        	userResponse.setPswd(l.getPswd());
+        	userResponse.setRole(l.getRole());
+        	userResponse.setTitle(l.getTitle());
+        	responseList.add(userResponse);
+        });
         
-        return userList;
+        return responseList;
     }
 	
 	
