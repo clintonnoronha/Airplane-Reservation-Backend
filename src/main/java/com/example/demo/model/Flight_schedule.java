@@ -9,13 +9,15 @@ public class Flight_schedule {
 	@Id
 	private Long flight_id;
 	
-//	aircraft_id foreign key
 	private String source;
 	private String destination;
 	private String departure_time;
 	private String arrival_time;
 	private String departure_date;
 	private String duration;
+	
+	@OneToOne(mappedBy="flight_schedule")
+	private Trip trip;
 	
 	
 	public Long getFlight_id() {

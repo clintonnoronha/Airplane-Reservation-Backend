@@ -9,7 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "booking_details")
 public class BookingDetails {
 	
-	@Id()
+	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="my_seq")
 	@SequenceGenerator(name="my_seq",sequenceName="MY_SEQ", allocationSize=1, initialValue=1)
 	@Column(length = 3)

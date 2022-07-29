@@ -76,6 +76,7 @@ public class Passenger {
 		this.age=pr.getAge();
 	}
 	
+	public Passenger() {}
 	
 
 }

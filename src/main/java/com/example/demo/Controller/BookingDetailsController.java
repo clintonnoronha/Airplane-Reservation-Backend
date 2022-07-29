@@ -40,7 +40,7 @@ public class BookingDetailsController {
 			bdr.setBookingId(l.getBooking_id());
 			bdr.setUserId(l.getUser().getId());
 			bdr.setPaymentId(l.getPay().getPayment_id());
-			bdr.setTrip(l.getTrip().getId());
+			bdr.setTrip(l.getTrip().getTrip_id());
 			bdr.setBookingDate(l.getBookingDate());
 			bdr.setStatus(l.getStatus());
 			

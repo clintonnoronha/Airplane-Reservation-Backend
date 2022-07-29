@@ -46,7 +46,7 @@ public class PassengerController {
 	public List <String> getPassengersByTripId(@RequestParam(name="trip_id") Long id){
 		List <Passenger> pl=this.passengerRepository.findAll();
 		List <String> prl=new ArrayList<>();
-		pl.stream().filter(p -> id == p.getTrip().getId()).forEach(p ->{
+		pl.stream().filter(p -> id == p.getTrip().getTrip_id()).forEach(p ->{
 			String  pr=p.getSeat().getSeat_id();
 			prl.add(pr);
 		});
