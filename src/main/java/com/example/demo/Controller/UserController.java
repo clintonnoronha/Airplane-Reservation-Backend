@@ -6,10 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.BookingDetails;
 import com.example.demo.model.User;
 import com.example.demo.model.UserResponse;
@@ -43,16 +45,33 @@ public class UserController {
 		}
 		return al;
 	}
-	@GetMapping("/users/forgotPassword/{email}")
-	public List<UserResponse> forgetPassword(@PathVariable("email") String email) {
-		User u = this.userRepository.findByEmail(email);
+//	@GetMapping("/users/forgotPassword/{email}")
+//	public List<UserResponse> forgetPassword(@PathVariable("email") String email) {
+//		User u = this.userRepository.findByEmail(email);
+//		List<UserResponse> al = new ArrayList<>(); 
+//		if(u!=null) {
+//			UserResponse ur= new UserResponse(u);
+//			al.add(ur);
+//			return al;
+//		}
+//		return al;
+//	}
+	
+	
+	@PutMapping("/users/forgotPassword/{email}")
+	public ResponseEntity<User> updateUserPassword(@PathVariable("email") String email_id, 
+			@RequestParam("password") String pwd) throws ResourceNotFoundException {
+		User u=this.userRepository.findByEmail(email_id);
 		List<UserResponse> al = new ArrayList<>(); 
 		if(u!=null) {
-			UserResponse ur= new UserResponse(u);
-			al.add(ur);
-			return al;
+			u.setPswd(pwd);
+			this.userRepository.save(u);
 		}
-		return al;
+		else {
+			new ResourceNotFoundException("User not found");
+		}
+
+		return ResponseEntity.ok(u);
 	}
 	
 	@PostMapping("/users")
