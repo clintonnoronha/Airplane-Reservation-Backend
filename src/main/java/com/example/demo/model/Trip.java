@@ -1,7 +1,5 @@
 package com.example.demo.model;
 
-import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -26,34 +23,34 @@ public class Trip {
 	@Column(name="trip_id")
 	private Long id;
 
-	//@OneToOne
-	//@JoinColumn
-	/*(name = "flight_id")
-	private flight_schedule flight_schedule;
+	@OneToOne
+	@JoinColumn
+	(name = "flight_id")
+	private Flight_schedule flight_schedule;
 
-	//@ManyToOne
-	//@JoinColumn
+	@ManyToOne
+	@JoinColumn
 	(name = "aircraft_id")
-	private aircraft aircraft;*/
+	private Aircraft aircraft;
 	
 	@OneToOne(mappedBy = "trip")
 	private BookingDetails bkDetails;
 	
-	/*public flight_schedule getflight_id() {
+	public Flight_schedule getflight_id() {
 		return flight_schedule;
 	}
 
-	public void setflight_id(flight_schedule flight_schedule) {
+	public void setflight_id(Flight_schedule flight_schedule) {
 		this.flight_schedule = flight_schedule;
 	}
 
-	public aircraft getaircraft() {
+	public Aircraft getaircraft() {
 		return aircraft;
 	}
 
-	public void setaircraft_id(aircraft aircraft) {
+	public void setaircraft_id(Aircraft aircraft) {
 		this.aircraft = aircraft;
-	}*/
+	}
 	public Trip() {}
 
 	public Long getId() {

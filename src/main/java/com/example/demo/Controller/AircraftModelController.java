@@ -2,6 +2,7 @@ package com.example.demo.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +29,7 @@ public class AircraftModelController {
 	@PostMapping("/aircraftModel")
 	public AircraftModel createAircraftModel(@RequestBody AircraftModelResponse aircraftModel) {
 		AircraftModel model=new AircraftModel(aircraftModel);
+		model.setAircraftList(new ArrayList<Aircraft>());
 		return aircraftModelRepo.save(model);
 	}
 	
@@ -52,8 +54,18 @@ public class AircraftModelController {
 	}
 	
 	@GetMapping("/aircraftModel/{id}")
-	public AircraftModel getById(@PathVariable Long id) {
-		return aircraftModelRepo.findById(id).get();
+	public List<AircraftModelResponse> getById(@PathVariable Long id) {
+		AircraftModel am=aircraftModelRepo.findByAircraftTypeId(id);
+		List<AircraftModelResponse> amrl=new ArrayList<>();
+		if(am!=null) {
+			AircraftModelResponse amr=new AircraftModelResponse();
+			amr.setAircraftTypeId(am.getAircraftTypeId());
+			amr.setCountOfBusinessSeats(am.getCountOfBusinessSeats());
+			amr.setCountOfEconomicSeats(am.getCountOfEconomicSeats());
+			amr.setTotalCapacity(am.getTotalCapacity());
+			amrl.add(amr);
+		}
+		return amrl;
 	}
 	
 	@DeleteMapping("/aircraftModel/{id}")

@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 import org.hibernate.annotations.OnDelete;
@@ -10,7 +12,6 @@ import org.hibernate.annotations.OnDeleteAction;
 public class Aircraft {
 
 	@Id
-	@Column(length=4)
 	Long aircraftId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -18,10 +19,17 @@ public class Aircraft {
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	AircraftModel aircraftModel;
 	
+	@OneToMany(mappedBy="aircraft")
+	private List<Trip> trip;
+	
 	public Aircraft() {
 		super();
 		System.out.println("Aircraft created");
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Aircraft(AircraftResponse ar) {
+		this.aircraftId=ar.getAircraftId();
 	}
 
 	public Aircraft(Long aircraftId) {
@@ -44,6 +52,15 @@ public class Aircraft {
 	public void setAircraftModel(AircraftModel aircraftModel) {
 		this.aircraftModel = aircraftModel;
 	}
+	
+	public List<Trip> getTrip() {
+		return trip;
+	}
+
+	public void setTrip(List<Trip> trip) {
+		this.trip = trip;
+	}
+
 	
 	
 }
