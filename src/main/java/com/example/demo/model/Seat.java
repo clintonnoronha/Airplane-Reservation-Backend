@@ -1,18 +1,28 @@
 package com.example.demo.model;
 
+import java.util.List;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="seats")
 public class Seat {
-
-		@Id
-		private String seat_id;
+	
 		
+		@Id
+		@Column(length=2)
+		private String seat_id;
+		@Column(length=8)
 		private String seat_type;
 
+		@OneToMany(mappedBy="seat")
+		private List<Passenger> passenger;
+		
 		public String getSeat_id() {
 			return seat_id;
 		}
@@ -28,9 +38,22 @@ public class Seat {
 		public void setSeat_type(String seat_type) {
 			this.seat_type = seat_type;
 		} 
-		
+
+		public List<Passenger> getPassenger() {
+			return passenger;
+		}
+
+		public void setPassenger(List<Passenger> passenger) {
+			this.passenger = passenger;
+		}
+
 		public Seat() {
 			
+		}
+		
+		public Seat(SeatResponse sr) {
+			this.seat_id=sr.getSeat_id();
+			this.seat_type=sr.getSeat_type();
 		}
 
 		public Seat(String seat_id, String seat_type) {
