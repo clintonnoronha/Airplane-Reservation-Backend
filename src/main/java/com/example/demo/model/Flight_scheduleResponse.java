@@ -3,13 +3,7 @@ package com.example.demo.model;
 public class Flight_scheduleResponse {
 
 	private Long flight_id;
-	public Long getFlight_id() {
-		return flight_id;
-	}
-
-	public void setFlight_id(Long i) {
-		this.flight_id = i;
-	}
+	
 
 	private String source;
 	private String destination;
@@ -18,8 +12,8 @@ public class Flight_scheduleResponse {
 	private String departure_date;
 	private String duration;
 	
-	private int aircraft_id;
-	
+	private Long aircraft_id;
+	private Long trip_id;
 	
 	public String getSource() {
 		return source;
@@ -69,14 +63,31 @@ public class Flight_scheduleResponse {
 		this.duration = duration;
 	}
 
-	public int getAircraft_id() {
+	public Long getAircraft_id() {
 		return aircraft_id;
 	}
 
-	public void setAircraft_id(int aircraft_id) {
+	public void setAircraft_id(Long aircraft_id) {
 		this.aircraft_id = aircraft_id;
 	}
 	
+	public Long getFlight_id() {
+		return flight_id;
+	}
+
+	public void setFlight_id(Long i) {
+		this.flight_id = i;
+	}
+	
+	
+	public Long getTrip_id() {
+		return trip_id;
+	}
+
+	public void setTrip_id(Long trip_id) {
+		this.trip_id = trip_id;
+	}
+
 	public Flight_scheduleResponse() {
 		
 	}

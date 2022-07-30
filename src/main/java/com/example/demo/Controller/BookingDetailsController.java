@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.BookingDetails;
 import com.example.demo.model.BookingDetailsResponse;
+import com.example.demo.model.Payment;
 import com.example.demo.repo.BookingDetailsRepository;
 import com.example.demo.repo.PaymentRepository;
 import com.example.demo.repo.TripRepository;
@@ -54,7 +55,9 @@ public class BookingDetailsController {
 			@RequestParam(name="pid") String payment_id,
 			@RequestParam(name="tid") Long trip_id,
 			@RequestParam(name="date") String booking_date,
-			@RequestParam(name="status") String status) {
+			@RequestParam(name="status") String status,
+			@RequestParam(name="amount") Long amount)
+		{
 		
 		BookingDetailsResponse bdr = new BookingDetailsResponse();
 		bdr.setUserId(user_id);
@@ -62,6 +65,12 @@ public class BookingDetailsController {
 		bdr.setTrip(trip_id);
 		bdr.setBookingDate(booking_date);
 		bdr.setStatus(status);
+		
+		Payment p=new Payment();
+		p.setPayment_id(payment_id);
+		p.setAmount(amount);
+		p.setStatus(status);
+		paymentRepository.save(p);
 		
 		BookingDetails bd = new BookingDetails();
 		bd.setUser(userRepository.findById(user_id).get());
@@ -71,5 +80,5 @@ public class BookingDetailsController {
 		bd.setStatus(status);
 		bookingDetailsRepository.save(bd);
         return bdr;
-    }
+		}
 }

@@ -9,8 +9,7 @@ public class Payment {
 	@Id
 	private String payment_id;
 	
-	@Column(precision = 8, scale = 2)
-	private double amount;
+	private Long amount;
 	
 	@Column(length=8)
 	private String status;
@@ -20,7 +19,7 @@ public class Payment {
 	
 	public Payment() {}
 
-	public Payment(String payment_id, double amount, String status) {
+	public Payment(String payment_id, Long amount, String status) {
 		super();
 		this.payment_id = payment_id;
 		this.amount = amount;
@@ -35,11 +34,11 @@ public class Payment {
 		this.payment_id = payment_id;
 	}
 
-	public double getAmount() {
+	public Long getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(Long amount) {
 		this.amount = amount;
 	}
 

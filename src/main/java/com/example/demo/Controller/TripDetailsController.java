@@ -30,7 +30,7 @@ public class TripDetailsController {
 	
 	@GetMapping("/tripDetails/{trip_id}")
 	public TripDetailsResponse getTripDetailsByTripId(@PathVariable Long trip_id) {
-		TripDetails td = tripDetailsRepository.findByTripDetailsId(trip_id);
+		TripDetails td = tripDetailsRepository.findById(trip_id).get();
 		TripDetailsResponse tdr = new TripDetailsResponse();
 		tdr.setDetails_id(td.getDetail_id());
 		tdr.setPrice(td.getPrice());

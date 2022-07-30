@@ -20,6 +20,7 @@ public class Flight_schedule {
 	private Trip trip;
 	
 	
+	
 	public Long getFlight_id() {
 		return flight_id;
 	}
@@ -62,6 +63,13 @@ public class Flight_schedule {
 	public void setDuration(String duration) {
 		this.duration = duration;
 	}
+	
+	public Trip getTrip() {
+		return trip;
+	}
+	public void setTrip(Trip trip) {
+		this.trip = trip;
+	}
 	public Flight_schedule(Long flight_id, String source, String destination, String departure_time,
 			String arrival_time, String departure_date, String duration) {
 		super();
@@ -78,6 +86,15 @@ public class Flight_schedule {
 		
 	}
 	
+	public Flight_schedule(Flight_scheduleResponse fcr) {
+		this.flight_id=fcr.getFlight_id();
+		this.source=fcr.getSource();
+		this.destination=fcr.getDestination();
+		this.departure_time=fcr.getDeparture_time();
+		this.arrival_time=fcr.getArrival_time();
+		this.departure_date=fcr.getDeparture_date();
+		this.duration=fcr.getDuration();
+	}
 	
 	
 }
