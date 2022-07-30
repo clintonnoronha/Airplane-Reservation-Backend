@@ -23,8 +23,7 @@ public class SeatController {
 	@PostMapping("/seat")
 	public SeatResponse createSeats(@Valid @RequestBody SeatResponse sr){
 		Seat s=new Seat(sr);
-		List<Passenger> pl=new ArrayList<>();
-		s.setPassenger(pl);
+		s.setPassenger(new ArrayList<Passenger>());
 		this.seatRepository.save(s);
 		return sr;
 	}

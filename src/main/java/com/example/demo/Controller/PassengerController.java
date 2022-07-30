@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +35,7 @@ public class PassengerController {
 		List<PassengerResponse> prl=new ArrayList<>();
 		prList.forEach(pr ->{
 			Passenger pe=new Passenger(pr);
-			pe.setTrip(this.tripRepository.findById(pr.getTrip_id()).get());
+			pe.setTrip(this.tripRepository.findByTripId(pr.getTrip_id()));
 			pe.setSeat(this.seatRepository.findSeatById(pr.getSeat_id()));
 			this.passengerRepository.save(pe);
 			prl.add(pr);
@@ -42,15 +43,15 @@ public class PassengerController {
 		return prl;
 	} 
 	
-	@GetMapping("/passengers")
-	public List <String> getPassengersByTripId(@RequestParam(name="trip_id") Long id){
+	@GetMapping("/passengers/{trip_id}")
+	public List <String> getPassengersByTripId(@PathVariable("trip_id") Long id){
 		List <Passenger> pl=this.passengerRepository.findAll();
-		List <String> prl=new ArrayList<>();
+		List <String> seatList=new ArrayList<>();
 		pl.stream().filter(p -> id == p.getTrip().getTrip_id()).forEach(p ->{
 			String  pr=p.getSeat().getSeat_id();
-			prl.add(pr);
+			seatList.add(pr);
 		});
-		return prl;
+		return seatList;
 		
 	}
 	

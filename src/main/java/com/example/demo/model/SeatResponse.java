@@ -4,7 +4,6 @@ public class SeatResponse {
 	
 	private String seat_id;
 	private String seat_type;
-	private Long passenger_id;
 	
 	
 	public String getSeat_id() {
@@ -19,13 +18,4 @@ public class SeatResponse {
 	public void setSeat_type(String seat_type) {
 		this.seat_type = seat_type;
 	}
-	public Long getPassenger_id() {
-		return passenger_id;
-	}
-	public void setPassenger_id(Long passenger_id) {
-		this.passenger_id = passenger_id;
-	}
-	
-	
-
 }

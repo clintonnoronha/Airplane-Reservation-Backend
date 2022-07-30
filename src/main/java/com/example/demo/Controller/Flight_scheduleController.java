@@ -51,7 +51,8 @@ public class Flight_scheduleController {
 			fs.setDuration(l.getDuration());
 			fs.setSource(l.getSource());
 			fs.setDestination(l.getDestination());
-			
+			fs.setTrip_id(l.getFlight_id());
+			fs.setAircraft_id(tripRepository.findByTripId(l.getFlight_id()).getAircraft().getAircraftId());
 			responselist.add(fs);
 			
 		});
@@ -60,25 +61,28 @@ public class Flight_scheduleController {
 	
 	@PostMapping("/add")
 	public ResponseEntity<Flight_schedule> createFlight(@Valid @RequestBody Flight_scheduleResponse fsr) {
+		
 		Flight_schedule fs=new Flight_schedule(fsr);
-		fs.setTrip(new Trip());
-		flightscheduleRepository.save(fs);
+		
 		Trip tr=new Trip();
 		tr.setTrip_id(fsr.getTrip_id());
 		tr.setBkDetails(new BookingDetails());
 		tr.setAircraft(aircraftRepository.findByAircraftId(fsr.getAircraft_id()));
-		tr.setFlight_schedule(flightscheduleRepository.findByFlightId(fsr.getFlight_id()));
-		tr.setTripDetail(new TripDetails());
+		tr.setFlight_schedule(fs);
+		tr.setTripDetail(new ArrayList<TripDetails>());
 		tr.setPassenger(new ArrayList<Passenger>());
 		tripRepository.save(tr);
+		
+		fs.setTrip(tripRepository.findByTripId(fsr.getTrip_id()));
+		flightscheduleRepository.save(fs);
 		
 		return new ResponseEntity<>(fs, HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping(value = "/delete/{flight_id}")
-    public ResponseEntity<Long> deleteFlight(@PathVariable Long flight_id) {
-        flightscheduleRepository.deleteById(flight_id);
-         return new ResponseEntity<>(flight_id, HttpStatus.OK);
+	@DeleteMapping(value = "/delete/{trip_id}")
+    public ResponseEntity<Long> deleteFlight(@PathVariable Long trip_id) {
+        tripRepository.deleteById(trip_id);
+        return new ResponseEntity<>(trip_id, HttpStatus.OK);
     }
 	
 	@GetMapping(value="/search")
@@ -97,7 +101,8 @@ public class Flight_scheduleController {
 				fs.setDuration(l.getDuration());
 				fs.setSource(l.getSource());
 				fs.setDestination(l.getDestination());
-				
+				fs.setTrip_id(l.getFlight_id());
+				fs.setAircraft_id(tripRepository.findByTripId(l.getFlight_id()).getAircraft().getAircraftId());
 				responselist.add(fs);
 			}
 			

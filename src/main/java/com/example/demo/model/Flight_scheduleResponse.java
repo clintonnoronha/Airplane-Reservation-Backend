@@ -87,11 +87,10 @@ public class Flight_scheduleResponse {
 	public void setTrip_id(Long trip_id) {
 		this.trip_id = trip_id;
 	}
+	
+	
 
 	public Flight_scheduleResponse() {
 		
 	}
-	
-	
-
 }

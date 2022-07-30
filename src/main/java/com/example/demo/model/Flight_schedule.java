@@ -2,21 +2,35 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="flights_schedules")
 public class Flight_schedule {
 	
 	@Id
 	private Long flight_id;
-	
+	@Column(length = 15)
 	private String source;
+	@Column(length = 15)
 	private String destination;
+	@Column(length = 10)
 	private String departure_time;
+	@Column(length = 10)
 	private String arrival_time;
+	@Column(length = 10)
 	private String departure_date;
+	@Column(length = 15)
 	private String duration;
 	
-	@OneToOne(mappedBy="flight_schedule")
+	
+	@OneToOne
+	@JoinColumn(name="trip_id")
+	@OnDelete(action=OnDeleteAction.CASCADE)
+	@JsonBackReference
 	private Trip trip;
 	
 	

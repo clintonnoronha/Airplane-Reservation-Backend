@@ -21,14 +21,6 @@ public class PaymentController {
 	@Autowired
 	private PaymentRepository paymentRepository;
 	
-	@PostMapping("/payments")
-	public ResponseEntity<Payment> createPayment(@Valid @RequestBody Payment pay) {
-		
-		paymentRepository.save(pay);
-		
-		return new ResponseEntity<>(pay, HttpStatus.CREATED);
-	}
-	
 	@GetMapping("/payments")
     public List<Payment> getAllPayments() {
 		

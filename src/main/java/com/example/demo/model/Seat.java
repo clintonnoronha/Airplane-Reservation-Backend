@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -20,7 +21,7 @@ public class Seat {
 		@Column(length=8)
 		private String seat_type;
 
-		@OneToMany(mappedBy="seat")
+		@OneToMany(mappedBy="seat", cascade = CascadeType.ALL)
 		private List<Passenger> passenger;
 		
 		public String getSeat_id() {

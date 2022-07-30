@@ -39,7 +39,7 @@ public class TripController {
 		t.setFlight_schedule(flight_scheduleRepository.findById(tr.getFlight_id()).get());
 		t.setBkDetails(new BookingDetails());
 		t.setPassenger(new ArrayList <Passenger>());
-		t.setTripDetail(new TripDetails());
+		t.setTripDetail(new ArrayList<TripDetails>());
 		return tripRepository.save(t);
 	}
 	

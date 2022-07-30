@@ -8,11 +8,21 @@ public class BookingDetailsResponse {
 	
 	private String paymentId;
 	
-	private Long trip;
+	private Long tripId;
 	
 	private String bookingDate;
 	
 	private String status;
+	
+	private Long amount;
+
+	public Long getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Long amount) {
+		this.amount = amount;
+	}
 
 	public Long getBookingId() {
 		return bookingId;
@@ -38,12 +48,12 @@ public class BookingDetailsResponse {
 		this.paymentId = paymentId;
 	}
 
-	public Long getTrip() {
-		return trip;
+	public Long getTripId() {
+		return tripId;
 	}
 
-	public void setTrip(Long trip) {
-		this.trip = trip;
+	public void setTripId(Long tripId) {
+		this.tripId = tripId;
 	}
 
 	public String getBookingDate() {

@@ -62,7 +62,6 @@ public class UserController {
 	public ResponseEntity<User> updateUserPassword(@PathVariable("email") String email_id, 
 			@RequestParam("password") String pwd) throws ResourceNotFoundException {
 		User u=this.userRepository.findByEmail(email_id);
-		List<UserResponse> al = new ArrayList<>(); 
 		if(u!=null) {
 			u.setPswd(pwd);
 			this.userRepository.save(u);

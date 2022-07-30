@@ -22,8 +22,7 @@ public class Passenger {
 	private Seat seat;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="my_seq")
-	@SequenceGenerator(name="my_seq",sequenceName="MY_SEQ", allocationSize=1, initialValue=1)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long passenger_id;
 	@Column(length=40)
 	private String name;

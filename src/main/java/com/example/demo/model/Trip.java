@@ -3,6 +3,7 @@ package com.example.demo.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,19 +18,18 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "trip")
 public class Trip {
 
 	
 	@Id
-	@SequenceGenerator(sequenceName = "trip_id", allocationSize = 1, name = "seq", initialValue=1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
 	private Long trip_id;
 
-	@OneToOne
-	@JoinColumn(name="flight_id")
-	@OnDelete(action=OnDeleteAction.CASCADE)
+	@JsonManagedReference
+	@OneToOne(mappedBy="trip", cascade=CascadeType.ALL)
 	private Flight_schedule flight_schedule;
 
 	@ManyToOne
@@ -37,13 +37,14 @@ public class Trip {
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	private Aircraft aircraft;
 	
-	@OneToOne(mappedBy = "trip")
+	@OneToOne(mappedBy = "trip", cascade=CascadeType.ALL)
 	private BookingDetails bkDetails;
 	
-	@OneToOne(mappedBy = "trip")
-	private TripDetails tripDetail;
+	@JsonManagedReference
+	@OneToMany(mappedBy = "trip", cascade=CascadeType.ALL)
+	private List<TripDetails> tripDetail;
 	
-	@OneToMany(mappedBy="trip")
+	@OneToMany(mappedBy="trip", cascade=CascadeType.ALL)
 	private List <Passenger> passenger;
 	
 	public Trip() {}
@@ -87,11 +88,11 @@ public class Trip {
 		this.bkDetails = bkDetails;
 	}
 
-	public TripDetails getTripDetail() {
+	public List<TripDetails> getTripDetail() {
 		return tripDetail;
 	}
 
-	public void setTripDetail(TripDetails tripDetail) {
+	public void setTripDetail(List<TripDetails> tripDetail) {
 		this.tripDetail = tripDetail;
 	}
 

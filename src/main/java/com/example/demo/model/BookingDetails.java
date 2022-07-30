@@ -5,24 +5,27 @@ import javax.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "booking_details")
 public class BookingDetails {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="my_seq")
-	@SequenceGenerator(name="my_seq",sequenceName="MY_SEQ", allocationSize=1, initialValue=1)
-	@Column(length = 3)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="my_sequ")
+	@SequenceGenerator(name="my_sequ",sequenceName="MY_SEQU", allocationSize=1, initialValue=1)
 	private Long booking_id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JsonBackReference
 	private User user;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "payment_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JsonBackReference
 	private Payment pay;
 	
 	@OneToOne(fetch = FetchType.LAZY)
@@ -37,6 +40,12 @@ public class BookingDetails {
 	private String status;
 	
 	public BookingDetails() {}
+	
+	public BookingDetails(BookingDetailsResponse bdr) {
+		this.booking_id = bdr.getBookingId();
+		this.bookingDate = bdr.getBookingDate();
+		this.status = bdr.getStatus();
+	}
 
 	public BookingDetails(Long booking_id, String bookingDate, String status) {
 		super();

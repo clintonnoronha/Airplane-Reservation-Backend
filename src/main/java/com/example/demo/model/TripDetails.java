@@ -4,6 +4,8 @@ package com.example.demo.model;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 
@@ -13,8 +15,7 @@ public class TripDetails {
 
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="my_seq")
-	@SequenceGenerator(name="my_seq",sequenceName="MY_SEQ", allocationSize=1, initialValue=1)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long detail_id;
 	
 	private Long price;
@@ -24,9 +25,10 @@ public class TripDetails {
 	@Column(length=8)
 	private String seat_type;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="trip_id")
 	@OnDelete(action=OnDeleteAction.CASCADE)
+	@JsonBackReference
 	private Trip trip;
 	
 	public TripDetails(TripDetailsResponse tdr) {

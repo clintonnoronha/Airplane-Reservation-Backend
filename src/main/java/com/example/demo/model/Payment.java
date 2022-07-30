@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="payment")
 public class Payment {
@@ -14,7 +16,8 @@ public class Payment {
 	@Column(length=8)
 	private String status;
 	
-	@OneToOne(mappedBy = "pay")
+	@JsonManagedReference
+	@OneToOne(mappedBy = "pay", cascade = CascadeType.ALL)
 	private BookingDetails bkDetails;
 	
 	public Payment() {}
