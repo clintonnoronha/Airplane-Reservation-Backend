@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.BookingDetails;
+import com.example.demo.model.DetailsResponse;
 import com.example.demo.model.Flight_schedule;
 import com.example.demo.model.Flight_scheduleResponse;
 import com.example.demo.model.Passenger;
@@ -25,6 +26,7 @@ import com.example.demo.model.Trip;
 import com.example.demo.model.TripDetails;
 import com.example.demo.repo.AircraftRepository;
 import com.example.demo.repo.Flight_scheduleRepository;
+import com.example.demo.repo.TripDetailsRepository;
 import com.example.demo.repo.TripRepository;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -39,6 +41,9 @@ public class Flight_scheduleController {
 	
 	@Autowired
 	private AircraftRepository aircraftRepository;
+	
+	@Autowired
+	private TripDetailsRepository tripDetailsRepository; 
 
 	@GetMapping("/flights")
 	public List<Flight_scheduleResponse> viewAllFlights() {
@@ -88,11 +93,11 @@ public class Flight_scheduleController {
     }
 	
 	@GetMapping(value="/search")
-	public List<Flight_scheduleResponse> searchFlight(@RequestParam(name="departure_date") String dep_date,
+	public List<DetailsResponse> searchFlight(@RequestParam(name="departure_date") String dep_date,
 			@RequestParam(name="source") String src,
 			@RequestParam(name="destination") String dest){
 		List<Flight_schedule> list=flightscheduleRepository.findAll();
-		List<Flight_scheduleResponse> responselist=new ArrayList<>();
+		List<DetailsResponse> responselist=new ArrayList<>();
 		list.forEach(l -> {
 			Flight_scheduleResponse fs=new Flight_scheduleResponse();
 			if(dep_date.equals(l.getDeparture_date()) && src.equals(l.getSource()) && dest.equals(l.getDestination())) {
@@ -105,9 +110,15 @@ public class Flight_scheduleController {
 				fs.setDestination(l.getDestination());
 				fs.setTrip_id(l.getFlight_id());
 				fs.setAircraft_id(tripRepository.findByTripId(l.getFlight_id()).getAircraft().getAircraftId());
-				responselist.add(fs);
+				List <TripDetails> ld=tripDetailsRepository.findByTripDetailsId(l.getFlight_id());
+				ld.forEach( j -> {
+					DetailsResponse dr=new DetailsResponse(fs);
+					dr.setPrice(j.getPrice());
+					dr.setSeat_type(j.getSeat_type());
+					dr.setCount_of_seats(j.getCount_of_seats());
+					responselist.add(dr);
+				});
 			}
-			
 		});
 		return responselist;
 	}
