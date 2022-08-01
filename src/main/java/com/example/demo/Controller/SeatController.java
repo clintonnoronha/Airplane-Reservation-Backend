@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,5 +30,28 @@ public class SeatController {
 		this.seatRepository.save(s);
 		return sr;
 	}
-
+	
+	@GetMapping("/seat/business")
+	public List<String> businessSeats() {
+		List<Seat> sl = this.seatRepository.findAll();
+		List<String> rl = new ArrayList<>();
+		sl.forEach(s -> {
+			if (s.getSeat_type().equals("Business")) {
+				rl.add(s.getSeat_id());
+			}
+		});
+		return rl;
+	}
+	
+	@GetMapping("/seat/economy")
+	public List<String> economySeats() {
+		List<Seat> sl = this.seatRepository.findAll();
+		List<String> rl = new ArrayList<>();
+		sl.forEach(s -> {
+			if (s.getSeat_type().equals("Economy")) {
+				rl.add(s.getSeat_id());
+			}
+		});
+		return rl;
+	}
 }
