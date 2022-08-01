@@ -95,7 +95,8 @@ public class Flight_scheduleController {
 	@GetMapping(value="/search")
 	public List<DetailsResponse> searchFlight(@RequestParam(name="departure_date") String dep_date,
 			@RequestParam(name="source") String src,
-			@RequestParam(name="destination") String dest){
+			@RequestParam(name="destination") String dest,
+			@RequestParam(name="seat_type") String seat){
 		List<Flight_schedule> list=flightscheduleRepository.findAll();
 		List<DetailsResponse> responselist=new ArrayList<>();
 		list.forEach(l -> {
@@ -113,10 +114,12 @@ public class Flight_scheduleController {
 				List <TripDetails> ld=tripDetailsRepository.findByTripDetailsId(l.getFlight_id());
 				ld.forEach( j -> {
 					DetailsResponse dr=new DetailsResponse(fs);
-					dr.setPrice(j.getPrice());
-					dr.setSeat_type(j.getSeat_type());
-					dr.setCount_of_seats(j.getCount_of_seats());
-					responselist.add(dr);
+					if (seat.equals(j.getSeat_type())) {
+						dr.setPrice(j.getPrice());
+						dr.setSeat_type(j.getSeat_type());
+						dr.setCount_of_seats(j.getCount_of_seats());
+						responselist.add(dr);
+					}
 				});
 			}
 		});
