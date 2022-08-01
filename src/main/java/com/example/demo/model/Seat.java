@@ -10,6 +10,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="seats")
 public class Seat {
@@ -21,6 +23,7 @@ public class Seat {
 		@Column(length=8)
 		private String seat_type;
 
+		@JsonManagedReference
 		@OneToMany(mappedBy="seat", cascade = CascadeType.ALL)
 		private List<Passenger> passenger;
 		

@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -45,6 +46,7 @@ public class Trip {
 	private List<TripDetails> tripDetail;
 	
 	@OneToMany(mappedBy="trip", cascade=CascadeType.ALL)
+	@JsonManagedReference
 	private List <Passenger> passenger;
 	
 	public Trip() {}

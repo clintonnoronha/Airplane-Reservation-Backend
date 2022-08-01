@@ -6,6 +6,8 @@ import javax.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="passenger")
 public class Passenger {
@@ -14,11 +16,13 @@ public class Passenger {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="trip_id")
 	@OnDelete(action=OnDeleteAction.CASCADE)
+	@JsonBackReference
 	private Trip trip;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="seat_id")
 	@OnDelete(action=OnDeleteAction.CASCADE)
+	@JsonBackReference
 	private Seat seat;
 	
 	@Id
