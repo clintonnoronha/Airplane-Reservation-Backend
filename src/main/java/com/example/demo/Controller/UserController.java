@@ -47,6 +47,18 @@ public class UserController {
 		}
 		return al;
 	}
+	
+	@GetMapping(value="/users/login/{email}")
+	public List<UserResponse> userLogin(@PathVariable("email") String email_id) {
+		User u= this.userRepository.findByEmail(email_id);
+		List<UserResponse> al = new ArrayList<>(); 
+		if(u!=null) {
+			UserResponse ur= new UserResponse(u);
+			al.add(ur);
+			return al;
+		}
+		return al;
+	}
 //	@GetMapping("/users/forgotPassword/{email}")
 //	public List<UserResponse> forgetPassword(@PathVariable("email") String email) {
 //		User u = this.userRepository.findByEmail(email);
@@ -61,7 +73,7 @@ public class UserController {
 	
 	
 	@PutMapping("/users/forgotPassword/{email}")
-	public ResponseEntity<User> updateUserPassword(@PathVariable("email") String email_id, 
+	public ResponseEntity<UserResponse> updateUserPassword(@PathVariable("email") String email_id, 
 			@RequestParam("password") String pwd) throws ResourceNotFoundException {
 		User u=this.userRepository.findByEmail(email_id);
 		if(u!=null) {
@@ -71,8 +83,8 @@ public class UserController {
 		else {
 			new ResourceNotFoundException("User not found");
 		}
-
-		return ResponseEntity.ok(u);
+		UserResponse ur = new UserResponse(u);
+		return ResponseEntity.ok(ur);
 	}
 	
 	@PostMapping("/users")

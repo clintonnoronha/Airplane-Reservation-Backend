@@ -28,9 +28,10 @@ public class BookingDetails {
 	@JsonBackReference
 	private Payment pay;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "trip_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JsonBackReference
 	private Trip trip;
 	
 	@Column(name="booking_date", length=10)

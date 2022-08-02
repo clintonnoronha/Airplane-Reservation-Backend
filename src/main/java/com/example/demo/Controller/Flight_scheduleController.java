@@ -73,7 +73,7 @@ public class Flight_scheduleController {
 		
 		Trip tr=new Trip();
 		tr.setTrip_id(fsr.getTrip_id());
-		tr.setBkDetails(new BookingDetails());
+		tr.setBkDetails(new ArrayList<BookingDetails>());
 		tr.setAircraft(aircraftRepository.findByAircraftId(fsr.getAircraft_id()));
 		tr.setFlight_schedule(fs);
 		tr.setTripDetail(new ArrayList<TripDetails>());

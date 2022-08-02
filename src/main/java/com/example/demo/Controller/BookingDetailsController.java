@@ -42,34 +42,39 @@ public class BookingDetailsController {
     public List<BookingDetailsResponse> getAllBookingByUserId(@PathVariable("id") Long id) {
 		List<BookingDetails> ls= bookingDetailsRepository.findAll();
 		List<BookingDetailsResponse> list=new ArrayList<>();
-		ls.stream().filter(uid -> id == uid.getUser().getId()).forEach(l -> {
-			BookingDetailsResponse bdr=new BookingDetailsResponse();
-			bdr.setBookingId(l.getBooking_id());
-			bdr.setUserId(l.getUser().getId());
-			bdr.setPaymentId(l.getPay().getPayment_id());
-			bdr.setTripId(l.getTrip().getTrip_id());
-			bdr.setBookingDate(l.getBookingDate());
-			bdr.setStatus(l.getStatus());
-			bdr.setAmount(l.getPay().getAmount());
-			list.add(bdr);
+		ls.forEach(l -> {
+			if (l.getUser()!= null) {
+				if (id == l.getUser().getId()) {
+					BookingDetailsResponse bdr=new BookingDetailsResponse();
+					bdr.setBookingId(l.getBooking_id());
+					bdr.setUserId(l.getUser().getId());
+					bdr.setPaymentId(l.getPay().getPayment_id());
+					bdr.setTripId(l.getTrip().getTrip_id());
+					bdr.setBookingDate(l.getBookingDate());
+					bdr.setStatus(l.getStatus());
+					bdr.setAmount(l.getPay().getAmount());
+					list.add(bdr);
+				}
+			}
 		});
 		return list;
     }
 	
 	@PostMapping("/bookings")
 	public BookingDetailsResponse createBooking(@Valid @RequestBody BookingDetailsResponse bdr){
-		
-		Payment p=new Payment();
-		p.setPayment_id(bdr.getPaymentId());
-		p.setAmount(bdr.getAmount());
-		p.setStatus(bdr.getStatus());
-		paymentRepository.save(p);
-		
-		BookingDetails bd = new BookingDetails(bdr);
-		bd.setUser(userRepository.findById(bdr.getUserId()).get());
-		bd.setPay(paymentRepository.findByPaymentId(bdr.getPaymentId()));
-		bd.setTrip(tripRepository.findById(bdr.getTripId()).get());
-		bookingDetailsRepository.save(bd);
-        return bdr;
+		if (!bdr.getPaymentId().isBlank() && bdr.getUserId() != null) {
+			Payment p=new Payment();
+			p.setPayment_id(bdr.getPaymentId());
+			p.setAmount(bdr.getAmount());
+			p.setStatus(bdr.getStatus());
+			paymentRepository.save(p);
+			
+			BookingDetails bd = new BookingDetails(bdr);
+			bd.setUser(userRepository.findById(bdr.getUserId()).get());
+			bd.setPay(paymentRepository.findByPaymentId(bdr.getPaymentId()));
+			bd.setTrip(tripRepository.findById(bdr.getTripId()).get());
+			bookingDetailsRepository.save(bd);
+		}
+		return bdr;
 	}
 }

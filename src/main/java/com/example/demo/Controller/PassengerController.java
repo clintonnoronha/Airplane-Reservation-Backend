@@ -38,8 +38,14 @@ public class PassengerController {
 	private TripDetailsRepository tripDetailsRepository;
 	
 	@PostMapping("/passengers")
-	public Passenger createPassengers(@Valid @RequestBody PassengerResponse pr){
-		Passenger pe=new Passenger(pr);
+	public List<Passenger> createPassengers(@Valid @RequestBody PassengerResponse pr){
+		List<Passenger> prl = new ArrayList<>();
+		Passenger ps = this.passengerRepository.findPassengerByTripIdAndSeatId(pr.getTrip_id(), pr.getSeat_id());
+		if (ps != null) {
+			prl.add(ps);
+			return prl;
+		}
+		Passenger pe = new Passenger(pr);
 		pe.setTrip(this.tripRepository.findByTripId(pr.getTrip_id()));
 		pe.setSeat(this.seatRepository.findSeatById(pr.getSeat_id()));
 		this.passengerRepository.save(pe);
@@ -51,8 +57,9 @@ public class PassengerController {
 				this.tripDetailsRepository.save(td);
 			}
 		});
-		return pe;
-	} 
+		prl.add(pe);
+		return prl;
+	}
 	
 	@GetMapping("/passengers/{trip_id}")
 	public List <String> getPassengersByTripId(@PathVariable("trip_id") Long id){

@@ -38,15 +38,16 @@ public class Trip {
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	private Aircraft aircraft;
 	
-	@OneToOne(mappedBy = "trip", cascade=CascadeType.ALL)
-	private BookingDetails bkDetails;
+	@JsonManagedReference
+	@OneToMany(mappedBy = "trip", cascade=CascadeType.ALL)
+	private List<BookingDetails> bkDetails;
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "trip", cascade=CascadeType.ALL)
 	private List<TripDetails> tripDetail;
 	
-	@OneToMany(mappedBy="trip", cascade=CascadeType.ALL)
 	@JsonManagedReference
+	@OneToMany(mappedBy="trip", cascade=CascadeType.ALL)
 	private List <Passenger> passenger;
 	
 	public Trip() {}
@@ -82,11 +83,11 @@ public class Trip {
 		this.aircraft = aircraft;
 	}
 
-	public BookingDetails getBkDetails() {
+	public List<BookingDetails> getBkDetails() {
 		return bkDetails;
 	}
 
-	public void setBkDetails(BookingDetails bkDetails) {
+	public void setBkDetails(List<BookingDetails> bkDetails) {
 		this.bkDetails = bkDetails;
 	}
 

@@ -11,6 +11,16 @@ public class PassengerResponse {
 	private Long passenger_id;
 	private String name;
 	private int age;
+	
+	public PassengerResponse() {}
+	
+	public PassengerResponse(Passenger p) {
+		this.passenger_id = p.getPassenger_id();
+		this.name = p.getName();
+		this.age = p.getAge();
+		this.seat_id = p.getSeat().getSeat_id();
+		this.trip_id = p.getTrip().getTrip_id();
+	}
 
 	
 	public Long getTrip_id() {

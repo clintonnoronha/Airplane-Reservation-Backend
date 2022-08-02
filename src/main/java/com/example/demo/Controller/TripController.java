@@ -38,7 +38,7 @@ public class TripController {
 		Trip t = new Trip(tr);
 		t.setAircraft(aircraftRepository.findByAircraftId(tr.getAircraft_id()));
 		t.setFlight_schedule(flight_scheduleRepository.findById(tr.getFlight_id()).get());
-		t.setBkDetails(new BookingDetails());
+		t.setBkDetails(new ArrayList<BookingDetails>());
 		t.setPassenger(new ArrayList <Passenger>());
 		t.setTripDetail(new ArrayList<TripDetails>());
 		return tripRepository.save(t);
